@@ -1,5 +1,9 @@
 package kr.letech.component;
 
+import java.io.FileNotFoundException;
+import java.io.FileReader;
+import java.io.IOException;
+import java.io.LineNumberReader;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
@@ -26,17 +30,58 @@ public class FileAnalysis {
 			this.createTable(lpp);
 		} catch (Exception e) {
 			System.out.println(e.getMessage());
+			return null;
 		}
 		
-		String str = "119.203.228.173 - - [11/Feb/2022:13:17:59 +0900] \"POST /letech/aprv/aprv02Ajax.do HTTP/1.1\" 200 1982";
-		List<Regex> regexList = lpp.getRegex();
-		for(Regex regex : regexList) {
-			Pattern p = Pattern.compile(regex.getRegex());
-			Matcher m = p.matcher(str);
-			while(m.find()) {
-				System.out.println(regex.getColumnName() + " ==> " + m.group(1));
-			}
-		}
+		LineNumberReader reader = null;
+		Connection conn = null;
+		Statement stmt = null;
+		try {
+			reader = new LineNumberReader(new FileReader("C:\\Users\\msjo\\Desktop\\test_log_files\\localhost_access_log.2022-02-14.txt"));
+			Class.forName("org.h2.Driver");
+			conn = DriverManager.getConnection("jdbc:h2:mem:testdb", "sa", "");
+			stmt = conn.createStatement();
+			String str;
+			try {
+				while ((str = reader.readLine()) != null) {
+					List<Regex> regexList = lpp.getRegex();
+					String sqlKey = "";
+					String sqlValue = "";
+					int count = 0;
+					for(Regex regex : regexList) {
+						Pattern p = Pattern.compile(regex.getRegex());
+						Matcher m = p.matcher(str);
+						while(m.find()) {
+							if(count++ != 0) {
+								sqlKey += ",";
+								sqlValue += ",";
+							}
+							sqlKey += regex.getColumnName();
+							if(m.group(1).isEmpty()) {
+								sqlValue += "null";
+							} else {
+								sqlValue += "'" + m.group(1) + "'";
+							}
+						}
+						String sql = "INSERT INTO " + lpp.getTableName() + "(" + sqlKey + ") VALUES (" + sqlValue + ");";
+						stmt.executeUpdate(sql);
+						System.out.println(sql);
+					}
+				}
+			} catch (IOException e) {
+				e.printStackTrace();
+			} 
+		} catch (FileNotFoundException e) {
+			e.printStackTrace();
+		} catch (SQLException se) {
+			se.printStackTrace();
+		} catch (Exception e) {
+			e.printStackTrace();
+		} finally {
+			try { if (stmt != null) stmt.close(); } catch (SQLException se) {} 
+			try { if (conn != null)	conn.close(); } catch (SQLException se) {}
+			try { if (reader != null) reader.close(); } catch (IOException e) {}
+		} 
 		
 		return null;  
 	}
@@ -45,13 +90,10 @@ public class FileAnalysis {
 		Connection conn = null;
 		Statement stmt = null;
 		try {
-			// STEP 1: Register JDBC driver
 			Class.forName("org.h2.Driver");
 
-			// STEP 2: Open a connection
 			conn = DriverManager.getConnection("jdbc:h2:mem:testdb", "sa", "");
 
-			// STEP 3: Execute a query
 			stmt = conn.createStatement();
 			String sql = "CREATE TABLE " + lpp.getTableName() + " (";
 			sql += "SEQ NUMBER AUTO_INCREMENT PRIMARY KEY";
@@ -61,27 +103,14 @@ public class FileAnalysis {
 			sql += ");";
 			
 			stmt.executeUpdate(sql);
-
-			// STEP 4: Clean-up environment
-			stmt.close();
-			conn.close();
 		} catch (SQLException se) {
 			throw se;
 		} catch (Exception e) {
 			throw e;
 		} finally {
-			try {
-				if (stmt != null)
-					stmt.close();
-			} catch (SQLException se2) {
-			} // nothing we can do
-			try {
-				if (conn != null)
-					conn.close();
-			} catch (SQLException se) {
-				se.printStackTrace();
-			} // end finally try
-		} // end try
+			try { if (stmt != null) stmt.close(); } catch (SQLException se) {} 
+			try { if (conn != null)	conn.close(); } catch (SQLException se) {}
+		} 
 		return 1;
 	}
 }
