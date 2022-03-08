@@ -31,6 +31,8 @@ public class Lpp {
 	@NotNull
 	private String extrMethod;
 	
+	private String dbType;
+	
 	private String dbUrl;
 	
 	private String dbPort;

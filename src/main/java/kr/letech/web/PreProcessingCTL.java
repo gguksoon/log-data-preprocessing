@@ -18,7 +18,7 @@ public class PreProcessingCTL {
 	
 	@RequestMapping("/")
 	public ModelAndView index(ModelAndView mv) {
-		preProcessingSVC.preProccessing(1L);
+//		preProcessingSVC.preProccessing(1L);
 		
 		mv.setViewName("index");
 		return mv;

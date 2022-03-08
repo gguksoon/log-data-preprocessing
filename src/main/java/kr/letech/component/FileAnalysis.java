@@ -26,21 +26,32 @@ public class FileAnalysis {
 	 * @return
 	 */
 	public Map<String, String> fileAnalysis(Lpp lpp) {
-		try {
-			this.createTable(lpp);
-		} catch (Exception e) {
-			System.out.println(e.getMessage());
-			return null;
-		}
-		
 		LineNumberReader reader = null;
 		Connection conn = null;
 		Statement stmt = null;
 		try {
 			reader = new LineNumberReader(new FileReader("C:\\Users\\msjo\\Desktop\\test_log_files\\localhost_access_log.2022-02-14.txt"));
-			Class.forName("org.h2.Driver");
-			conn = DriverManager.getConnection("jdbc:h2:mem:testdb", "sa", "");
+			String url = null;
+			if("MariaDB".equals(lpp.getDbType())) {
+				url = "jdbc:mariadb://" + lpp.getDbUrl() + ":" + lpp.getDbPort() + "/" + lpp.getDbName(); // jdbc:mariadb://10.10.250.105:23306/lpp
+				Class.forName("org.mariadb.jdbc.Driver");
+			} else if("H2".equals(lpp.getDbType())) {
+				url = "jdbc:h2" + ":" + lpp.getDbName(); // jdbc:h2:mem:testdb
+				Class.forName("org.h2.Driver");
+			}
+			conn = DriverManager.getConnection(url, lpp.getDbUser(), lpp.getDbPass());
 			stmt = conn.createStatement();
+			
+			stmt.executeUpdate("DROP TABLE IF EXISTS " + lpp.getTableName());
+			String sql = "CREATE TABLE IF NOT EXISTS " + lpp.getTableName() + " (";
+			sql += "SEQ INT(20) AUTO_INCREMENT PRIMARY KEY";
+			for(Regex regex : lpp.getRegex()) {
+				sql += ", " + regex.getColumnName() + " TEXT";
+			}
+			sql += ")";
+			
+			stmt.executeUpdate(sql);
+			
 			String str;
 			try {
 				while ((str = reader.readLine()) != null) {
@@ -63,10 +74,11 @@ public class FileAnalysis {
 								sqlValue += "'" + m.group(1) + "'";
 							}
 						}
-						String sql = "INSERT INTO " + lpp.getTableName() + "(" + sqlKey + ") VALUES (" + sqlValue + ");";
-						stmt.executeUpdate(sql);
-						System.out.println(sql);
 					}
+					String sql2 = "INSERT INTO " + lpp.getTableName() + "(" + sqlKey + ") VALUES (" + sqlValue + ");";
+					System.out.println(str);
+					System.out.println(reader.getLineNumber() + " ==> " + sql2);
+					stmt.executeUpdate(sql2);
 				}
 			} catch (IOException e) {
 				e.printStackTrace();
@@ -86,31 +98,4 @@ public class FileAnalysis {
 		return null;  
 	}
 	
-	private int createTable(Lpp lpp) throws Exception {
-		Connection conn = null;
-		Statement stmt = null;
-		try {
-			Class.forName("org.h2.Driver");
-
-			conn = DriverManager.getConnection("jdbc:h2:mem:testdb", "sa", "");
-
-			stmt = conn.createStatement();
-			String sql = "CREATE TABLE " + lpp.getTableName() + " (";
-			sql += "SEQ NUMBER AUTO_INCREMENT PRIMARY KEY";
-			for(Regex regex : lpp.getRegex()) {
-				sql += ", " + regex.getColumnName() + " VARCHAR(4000)";
-			}
-			sql += ");";
-			
-			stmt.executeUpdate(sql);
-		} catch (SQLException se) {
-			throw se;
-		} catch (Exception e) {
-			throw e;
-		} finally {
-			try { if (stmt != null) stmt.close(); } catch (SQLException se) {} 
-			try { if (conn != null)	conn.close(); } catch (SQLException se) {}
-		} 
-		return 1;
-	}
 }

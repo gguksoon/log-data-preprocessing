@@ -55,6 +55,12 @@
 			<scope>test</scope>
 		</dependency>
 
+		<!-- mariadb driver -->	
+		<dependency>
+			<groupId>org.mariadb.jdbc</groupId>
+			<artifactId>mariadb-java-client</artifactId>
+		</dependency>
+	
 		<!-- lombok -->		
 		<dependency>
 			<groupId>org.projectlombok</groupId>
