@@ -5,6 +5,7 @@ import java.util.Map;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -23,11 +24,17 @@ public class PreProcessingCTL {
 	@Autowired
 	private Pagination pagination;
 	
-	@RequestMapping("/")
-	public ModelAndView index(ModelAndView mv) {
-//		preProcessingSVC.preProccessing(1L);
-		
-		mv.setViewName("index");
+	@GetMapping("/")
+	public ModelAndView lppListView(ModelAndView mv) {
+		mv.setViewName("lppList");
+
+		return mv;
+	}
+	
+	@GetMapping("/dtl")
+	public ModelAndView lppDtlView(ModelAndView mv) {
+		mv.setViewName("lppDtl");
+
 		return mv;
 	}
 	
@@ -40,4 +47,13 @@ public class PreProcessingCTL {
 		mv.addObject("lppList", lppList);
 		return mv;
 	}
+	
+	@PostMapping("/getLpp")
+	public ModelAndView getLpp(ModelAndView mv, @RequestBody Lpp lpp) {
+		mv.setViewName("jsonView");
+
+		mv.addObject("lpp", preProcessingSVC.getLpp(lpp));
+		return mv;
+	}
+	
 }

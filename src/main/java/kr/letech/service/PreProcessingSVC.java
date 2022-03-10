@@ -22,18 +22,17 @@ public class PreProcessingSVC {
 	@Autowired
 	private FileAnalysis fileAnalysis;
 	
-	public void preProccessing(Long lppId) {
-		Optional<Lpp> optLpp = lppRepository.findById(lppId);
-		Lpp lpp = optLpp.orElse(null);
-
-		fileAnalysis.fileAnalysis(lpp);
-	}
-
 	public Page<Lpp> getLppList(Map<String, String> paramMap) {
 		int page = Integer.parseInt(paramMap.get("page"));
 		page = page == 0 ? 0 : page - 1;
 		int size = Integer.parseInt(paramMap.get("size"));
 		
 		return lppRepository.findAll(PageRequest.of(page, size, Sort.by("regDate").descending()));
+	}
+
+	public Lpp getLpp(Lpp lpp) {
+		Optional<Lpp> optLpp = lppRepository.findById(lpp.getLppId());
+		
+		return optLpp.orElse(null);
 	}
 }

@@ -17,17 +17,24 @@ app.controller("ctl", ['$scope', '$http', '$window', '$compile', function($scope
 		$http({
 			url: $window.contextPath + "/getLppList",
 			method: 'POST',
-			data: $scope.paramMap,
-			headers: { "Content-Type": "application/json" },
-			dataType: "json"
+			data: $scope.paramMap
 		}).then(function success(response) {
 			let lppList = response.data.lppList;
 			$scope.lppList = lppList.content;
+			console.log($scope.lppList);
 			$("#pagination").empty();
 			$compile($("#pagination").append(response.data.pagination))($scope);
 		}, function error(response) {
 			console.log(response);
 		});
+	}
+	
+	$scope.fn_goDtl = function(lppId) {
+		if(lppId !== undefined) {
+			$window.location.href = $window.contextPath + "/dtl?lppId=" + lppId;
+		} else {
+			$window.location.href = $window.contextPath + "/dtl";
+		}
 	}
 
 }]);

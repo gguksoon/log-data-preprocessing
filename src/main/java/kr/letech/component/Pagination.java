@@ -15,24 +15,24 @@ public class Pagination {
 		String str = "";
 		
 		if(start <= 1) {
-			str += "<li class='page-item'><a class='page-link' href='#'	ng-click='fn_getPagingList(1)'><span aria-hidden='true'>&laquo;</span></a></li>";
+			str += "<li class='page-item'><a class='page-link' ng-click='fn_getPagingList(1)'><span aria-hidden='true'>&laquo;</span></a></li>";
 		} else {
-			str += "<li class='page-item'><a class='page-link' href='#'	ng-click='fn_getPagingList(" + (start - 10) + ")'><span aria-hidden='true'>&laquo;</span></a></li>";
+			str += "<li class='page-item'><a class='page-link' ng-click='fn_getPagingList(" + (start - 10) + ")'><span aria-hidden='true'>&laquo;</span></a></li>";
 		}
 		
 		for(int i = start; i <= end; i++) {
 			if(i == index) {
-				str += "<li class='page-item active'><a class='page-link' href='#'>" + i + "</a></li>";
+				str += "<li class='page-item active'><a class='page-link'>" + i + "</a></li>";
 			} else {
-				str += "<li class='page-item'><a class='page-link' href='#' ng-click='fn_getPagingList(" + i + ")'>" + i + "</a></li>";
+				str += "<li class='page-item'><a class='page-link' ng-click='fn_getPagingList(" + i + ")'>" + i + "</a></li>";
 			}
 			
 		}
 		
 		if(index/10 == total/10) {
-			str += "<li class='page-item'><a class='page-link' href='#'	ng-click='fn_getPagingList(" + total + ")'><span aria-hidden='true'>&raquo;</span></a></li>";
+			str += "<li class='page-item'><a class='page-link' ng-click='fn_getPagingList(" + total + ")'><span aria-hidden='true'>&raquo;</span></a></li>";
 		} else {
-			str += "<li class='page-item'><a class='page-link' href='#'	ng-click='fn_getPagingList(" + (end + 1) + ")'><span aria-hidden='true'>&raquo;</span></a></li>";
+			str += "<li class='page-item'><a class='page-link' ng-click='fn_getPagingList(" + (end + 1) + ")'><span aria-hidden='true'>&raquo;</span></a></li>";
 		}
 		
 		return str;
