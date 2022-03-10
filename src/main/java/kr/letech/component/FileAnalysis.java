@@ -30,7 +30,7 @@ public class FileAnalysis {
 		Connection conn = null;
 		Statement stmt = null;
 		try {
-			reader = new LineNumberReader(new FileReader("C:\\Users\\msjo\\Desktop\\test_log_files\\localhost_access_log.2022-02-14.txt"));
+			reader = new LineNumberReader(new FileReader(lpp.getFilePath()));
 			String url = null;
 			if("MariaDB".equals(lpp.getDbType())) {
 				url = "jdbc:mariadb://" + lpp.getDbUrl() + ":" + lpp.getDbPort() + "/" + lpp.getDbName(); // jdbc:mariadb://10.10.250.105:23306/lpp
