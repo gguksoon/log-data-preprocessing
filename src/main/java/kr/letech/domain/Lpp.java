@@ -1,11 +1,14 @@
 package kr.letech.domain;
 
+import java.util.Date;
 import java.util.List;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 
 import com.sun.istack.NotNull;
@@ -28,8 +31,9 @@ public class Lpp {
 	@NotNull
 	private String filePath;
 	
-	@NotNull
-	private String extrMethod;
+	@ManyToOne
+	@JoinColumn(name = "extrMethod")
+	private Cd extrMethod;
 	
 	private String dbType;
 	
@@ -45,6 +49,12 @@ public class Lpp {
 	
 	private String tableName;
 	
+	@ManyToOne
+	@JoinColumn(name = "status")
+	private Cd status;
+	
+	private Date regDate;
+
 	@OneToMany(mappedBy = "lppId")
 	private List<Regex> regex;
 }
