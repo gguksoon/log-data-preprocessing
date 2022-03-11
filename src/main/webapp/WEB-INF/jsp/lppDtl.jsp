@@ -12,7 +12,7 @@
 		<main>
 			<div class="row g-4 mt-3">
 				<div>
-					<form>
+					<form id="lpp">
 						<hr>
 						<div class="row mb-3">
 							<label for="filePath" class="col-sm-3 col-form-label">디렉토리 경로 혹은 파일 명</label>
@@ -106,7 +106,7 @@
 						</div>
 						<hr>
 						<a class='btn btn-outline-primary float-end mb-3' href='${pageContext.request.contextPath }/'><span aria-hidden='true'>취소</span></a>
-						<button type="submit" class='btn btn-outline-primary float-end mb-3'>저장</button>
+						<button type="submit" class='btn btn-outline-primary float-end mb-3' ng-click="fn_upsertLpp()">저장</button>
 					</form>
 				</div>
 			</div>

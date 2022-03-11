@@ -19,7 +19,7 @@ public class Regex {
 
 	@Id
 	@NotNull
-	@GeneratedValue(strategy=GenerationType.AUTO)
+	@GeneratedValue(strategy=GenerationType.IDENTITY)
 	private Long regexId;
 	
 	@NotNull

@@ -45,6 +45,19 @@ app.controller("ctl", ['$scope', '$http', '$window', function($scope, $http, $wi
 		}
 	}
 	
+	$scope.fn_upsertLpp = () => {
+		$http({
+			url: $window.contextPath + "/upsertLpp",
+			method: 'POST',
+			data: $scope.lpp,
+		}).then(function success(response) {
+//			let lpp = response.data.lpp;
+//			$scope.lpp = lpp;
+		}, function error(response) {
+			console.log(response);
+		});
+	}
+	
 	$scope.fn_getParam = (param) => {
 		let result = null;
 		let tmp = [];

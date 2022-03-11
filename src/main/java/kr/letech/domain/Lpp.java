@@ -25,7 +25,7 @@ public class Lpp {
 
 	@Id
 	@NotNull
-	@GeneratedValue(strategy=GenerationType.AUTO)
+	@GeneratedValue(strategy=GenerationType.IDENTITY)
     private Long lppId;
 	
 	@NotNull

@@ -56,4 +56,12 @@ public class PreProcessingCTL {
 		return mv;
 	}
 	
+	@PostMapping("/upsertLpp")
+	public ModelAndView upsertLpp(ModelAndView mv, @RequestBody Lpp lpp) {
+		mv.setViewName("jsonView");
+		
+		mv.addObject("lpp", preProcessingSVC.upsertLpp(lpp));
+		return mv;
+	}
+	
 }
