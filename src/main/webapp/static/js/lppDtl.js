@@ -45,9 +45,9 @@ app.controller("ctl", ['$scope', '$http', '$window', function($scope, $http, $wi
 		}
 	}
 	
-	$scope.fn_upsertLpp = () => {
+	$scope.fn_saveLpp = () => {
 		$http({
-			url: $window.contextPath + "/upsertLpp",
+			url: $window.contextPath + "/saveLpp",
 			method: 'POST',
 			data: $scope.lpp,
 		}).then(function success(response) {

@@ -10,6 +10,7 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
+import javax.persistence.PrePersist;
 
 import com.sun.istack.NotNull;
 
@@ -57,4 +58,12 @@ public class Lpp {
 
 	@OneToMany(mappedBy = "lppId")
 	private List<Regex> regex;
+	
+	@PrePersist
+	private void onCreate() {
+		this.regDate = new Date();
+		Cd cd = new Cd();
+		cd.setCdId("CD0201");
+		this.status = cd;
+	}
 }

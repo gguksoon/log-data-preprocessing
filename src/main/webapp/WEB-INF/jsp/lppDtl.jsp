@@ -106,7 +106,7 @@
 						</div>
 						<hr>
 						<a class='btn btn-outline-primary float-end mb-3' href='${pageContext.request.contextPath }/'><span aria-hidden='true'>취소</span></a>
-						<button type="submit" class='btn btn-outline-primary float-end mb-3' ng-click="fn_upsertLpp()">저장</button>
+						<button type="submit" class='btn btn-outline-primary float-end mb-3' ng-click="fn_saveLpp()">저장</button>
 					</form>
 				</div>
 			</div>
@@ -118,7 +118,6 @@
 	<script type="text/javascript" src="${pageContext.request.contextPath }/webjars/bootstrap/5.1.3/js/bootstrap.min.js"></script>
 	<script type="text/javascript" src="${pageContext.request.contextPath }/webjars/jquery/3.6.0/jquery.min.js"></script>
 	<script type="text/javascript" src="${pageContext.request.contextPath }/webjars/angularjs/1.6.9/angular.js"></script>
-	<script type="text/javascript" src="${pageContext.request.contextPath }/webjars/angular-ui-router/1.0.20/angular-ui-router.min.js"></script>
 	<script type="text/javascript" src="${pageContext.request.contextPath }/static/js/lppDtl.js"></script>
 	
 </body>

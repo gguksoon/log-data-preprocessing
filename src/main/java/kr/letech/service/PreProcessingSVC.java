@@ -14,6 +14,7 @@ import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import kr.letech.component.FileAnalysis;
+import kr.letech.domain.Cd;
 import kr.letech.domain.Lpp;
 import kr.letech.domain.LppRepository;
 import kr.letech.domain.Regex;
@@ -46,7 +47,7 @@ public class PreProcessingSVC {
 	}
 	
 	@Transactional
-	public Lpp upsertLpp(Lpp lpp) {
+	public Lpp saveLpp(Lpp lpp) {
 		if(lpp.getLppId() == null) { // insert
 			lppRepository.save(lpp);
 		} else { // update

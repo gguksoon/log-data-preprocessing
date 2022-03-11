@@ -60,7 +60,7 @@ public class PreProcessingCTL {
 	public ModelAndView upsertLpp(ModelAndView mv, @RequestBody Lpp lpp) {
 		mv.setViewName("jsonView");
 		
-		mv.addObject("lpp", preProcessingSVC.upsertLpp(lpp));
+		mv.addObject("lpp", preProcessingSVC.saveLpp(lpp));
 		return mv;
 	}
 	
