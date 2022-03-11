@@ -8,11 +8,11 @@ app.controller("ctl", ['$scope', '$http', '$window', '$compile', function($scope
 	}
 	$scope.paging = {};
 	
-	$scope.fn_init = function() {
+	$scope.fn_init = () => {
 		$scope.fn_getPagingList();
 	}
 	
-	$scope.fn_getPagingList = function(page) {
+	$scope.fn_getPagingList = (page) => {
 		$scope.paramMap.page = page == undefined ? 1 : page;
 		$http({
 			url: $window.contextPath + "/getLppList",
@@ -29,7 +29,7 @@ app.controller("ctl", ['$scope', '$http', '$window', '$compile', function($scope
 		});
 	}
 	
-	$scope.fn_goDtl = function(lppId) {
+	$scope.fn_goDtl = (lppId) => {
 		if(lppId !== undefined) {
 			$window.location.href = $window.contextPath + "/dtl?lppId=" + lppId;
 		} else {
