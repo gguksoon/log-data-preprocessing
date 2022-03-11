@@ -49,21 +49,17 @@ public class PreProcessingSVC {
 	public Lpp upsertLpp(Lpp lpp) {
 		if(lpp.getLppId() == null) { // insert
 			lppRepository.save(lpp);
-//			regexRepository.saveAll(lpp.getRegex());
 		} else { // update
-			System.out.println(lpp.toString());
 			for(Regex regex : lpp.getRegex()) {
 				regex.setRegexId(null);
 			}
 			lppRepository.save(lpp);
-			System.out.println(lpp.toString());
 			regexRepository.deleteByLppId(lpp.getLppId());
-			for(Regex regex : lpp.getRegex()) {
-				regex.setLppId(lpp.getLppId());
-			}
-			regexRepository.saveAll(lpp.getRegex());
-			System.out.println(lpp.toString());
 		}
+		for(Regex regex : lpp.getRegex()) {
+			regex.setLppId(lpp.getLppId());
+		}
+		regexRepository.saveAll(lpp.getRegex());
 		return null;
 	}
 }

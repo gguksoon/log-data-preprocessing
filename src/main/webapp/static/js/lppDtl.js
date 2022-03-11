@@ -25,7 +25,7 @@ app.controller("ctl", ['$scope', '$http', '$window', function($scope, $http, $wi
 		if($scope.lpp == undefined) {
 			$scope.lpp = {regex: [{regexId: 1}]};
 		} else if($scope.lpp.regex == undefined) {
-			$scope.lpp.regex.push({regexId: 1});
+			$scope.lpp.regex = [{regexId: 1}];
 		} else {
 			let regexList = $scope.lpp.regex;
 			let max = 0;
